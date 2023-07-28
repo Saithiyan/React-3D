@@ -9,27 +9,41 @@ export default function Dragon({anim}) {
     mondelDragon.scene
   );
   console.log(mondelDragon, actions);
+  
+  let x = 0, y = 0, z = 0;
+  switch (anim){
+    case 'flying':
+        x = 0;
+        y = -6;
+        z = 0;
+        break;
+    case 'running':
+    case 'idle':
+        x = 0;
+        y = 0;
+        z = 0;
+        break;
+    default:
+        x = 0;
+        y = -6;
+        z = 0;
+        break;
+  }
+
+  function stopAllAnimation(){
+    Object.keys(actions).map((e)=>{
+        actions[e].stop();
+    })
+  }
   useEffect(() => {
-    switch (anim) {
-        case 1:
-            actions.flying.play();
-            break;
-        case 2:
-            actions.idle.play();
-            break;
-        case 3:
-            actions.running.play();
-            break;
-        default:
-            actions.flying.play();
-            break;
-    }
+    stopAllAnimation();
+    actions[anim].play();
     // actions.RoutNode.0.play();
     
   }, [anim,actions]);
   return (
-    <group scale={1.5} position={[0, -6, 0]}>
-    <primitive object={mondelDragon.scene} />
+    <group scale={1.5} position={[x, y, z]}>
+        <primitive object={mondelDragon.scene} />
     </group>
   );
 }
